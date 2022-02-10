@@ -7,12 +7,14 @@
 		(at ?what ?square)
 		(have ?who ?what)
 		(dead ?who)
+		(monster ?square)
 		(agency ?agent))
 	
 	(:action move
 		:parameters (?who ?from ?to)
 		:precondition (and (adj ?from ?to)
 			      (not (pit ?to))
+			      (not (monster ?to))
 			      (agency ?who)
 			      (at ?who ?from))
 		:effect (and (not (at ?who ?from)) (at ?who ?to)))
@@ -23,13 +25,14 @@
 		:effect (and (have ?who ?what) (not (at ?what ?where))))
 
 	(:action shoot
-		:parameters (?who ?where ?arrow ?victim ?where-victim)
+		:parameters (?who ?where ?arrow ?where-victim)
 		:precondition (and (have ?who ?arrow)
 			      (at ?who ?where)
-			      (at ?victim ?where-victim)
+			      (agency ?who)
+			      (monster ?where-victim)
 			      (adj ?where ?where-victim))
-		:effect (and (dead ?victim) 
-			(not (at ?victim ?where-victim)) 
+		:effect (and 
+			(not (monster ?where-victim))
 			(not (have ?who ?arrow))))
 
 )

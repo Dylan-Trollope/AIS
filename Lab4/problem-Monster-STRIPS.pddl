@@ -5,8 +5,7 @@
 		sq-2-1 sq-2-2 sq-2-3
 		the-gold
 		the-arrow
-		agent
-		monster)
+		agent)
 
 	(:init 
 		(adj sq-1-1 sq-1-2) (adj sq-1-2 sq-1-1)
@@ -22,7 +21,7 @@
 		(at the-gold sq-1-3)
 		(at agent sq-1-1)
 		(have agent the-arrow)
-		(at monster sq-2-3)
+		(monster sq-2-3)
 		(agency agent))
 
-	(:goal (and (have agent the-gold) (dead monster) (at agent sq-1-1))))
+	(:goal (and (have agent the-gold) (at agent sq-1-1))))
