@@ -1,0 +1,5 @@
+1) - need to constrain which kinds of objects can move (only the agent) so only objects with agency can move
+   - to get to the gold, the monster needs to be killed so add it to the goal along with other predicates
+
+2) - need to make sure that the agent is in the adjacent block before shooting the monster
+   - need to add the dead-monster predicate to the goal 
