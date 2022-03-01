@@ -1,0 +1,101 @@
+digraph finite_state_machine {
+    //rankdir=LR;
+    size="8,5"
+    node [shape = square] A_hP_hC;
+    node [shape = doublecircle] A;
+    node [shape = circle];
+    
+   
+   
+//Zero Level
+//A_hP_hC
+
+//First Level
+    A_hP_hC -> B_hP_hC [ label = "W(B,A)" ];//B_hP_hC is level 1
+
+//Second Level
+    B_hP_hC -> C_hP_hC [ label = "W(C,B)" ];//C_hP_hC is level 2
+    B_hP_hC -> A_hP_hC [ label = "W(A,B)" ];//A_hP_hC was level 0
+    
+//Third Level
+    C_hP_hC -> B_hP_hC [ label = "W(B,C)" ];//B_hP_hC is level 3
+
+//Fourth Level
+
+    C_hP_hC -> C_hP_2M [ label = "Buy2C" ];//C_hP_2M is level 4
+    C_hP_hC -> C_hP_1M [ label = "Buy1C" ];//C_hP_1M is level 4
+    C_hP_hC -> C_hC_1M [ label = "Buy1P" ];//C_hC_1M is level 4 
+    C_hP_hC -> C_hC_2M [ label = "Buy2P" ];//C_hP_2M is level 4
+
+//Fifth Level
+
+    B_hP_2M -> B_hP_2M [ label = "Withdraw"];
+	B_hC_2M -> B_hC_2M [ label = "Withdraw"];
+	B_hP_1M -> B_hP_2M [ label = "Withdraw"];
+	B_hC_1M -> B_hC_2M [ label = "Withdraw"];
+
+    C_hP_2M -> B_hP_2M [ label = "W(C,B)" ];
+    B_hP_2M -> C_hP_2M [ label = "W(B,C)" ];
+
+	B_hP_2M -> B_hP  [ label = "Withdraw" ];
+	B_hP -> A_hP [ label = "W(B,A)" ];
+	A_hP -> B_hP [ label = "W(A,B)" ];
+
+	B_hP -> C_hP [ label = "W(B,C)" ];
+	C_hP -> B_hP [ label = "W(C,B)" ];
+
+	C_hP_1M -> C_2M [ label = "Buy2P" ];
+
+	C_1M -> B_1M [ label = "W(C,B)" ];
+	B_1M -> C_1M [ label = "W(B,C)" ];
+	C_2M -> B_2M [ label = "W(C,B)" ];
+	B_2M -> C_2M [ label = "W(B,C)" ];
+
+
+	B_1M -> B_2M [ label = "Withdraw" ];
+	B_2M -> B_2M [ label = "WIthdraw" ];
+	
+	B_2M -> B [ label = "Withdraw" ];
+
+
+	C_hC_2M -> B_hC_2M [ label = "W(C,B)" ];
+	B_hC_2M -> C_hC_2M [ label = "W(B,C)" ];
+
+	B_hC_2M -> B_hC [ label = "Withdraw" ];
+
+	C_hP_1M -> B_hP_1M [ label = "W(C,B)" ];
+	B_hP_1M -> C_hP_1M [ label = "W(B,C)" ];
+
+
+	C_hC_1M -> B_hC_1M [ label = "W(C,B)" ];
+	B_hC_1M -> C_hC_1M [ label = "W(B,C)" ];
+
+	B_hP_2M -> A_hP_2M [ label = "W(B,A)" ];
+	A_hP_2M -> B_hP_2M [ label = "W(A,B)" ];
+
+	B_hC_2M -> A_hC_2M [ label = "W(B,A)" ];
+	A_hC_2M -> B_hC_2M [ label = "W(A,B)" ];
+
+	B_hP_1M -> A_hP_1M [ label = "W(B,A)" ];
+	B_hC_1M -> A_hC_1M [ label = "W(B,A)" ];
+		
+	B_hC -> C_hC [ label = "W(B,C)" ];
+	C_hC -> B_hC [ label = "W(C,B)" ];
+
+	C_hC_1M -> C_2M [ label = "Buy2C" ];
+	C_hC -> C_1M [ label = "Buy1C" ];
+	C_hP -> C_1M [ label = "Buy1P" ];
+
+	B_hC -> A_hC [ label = "W(B,A)" ];
+	A_hC -> B_hC [label = "W(A,B)" ];
+
+	B -> A 	[ label = "W(B,A)"];
+	A -> B [ label = "W(A,B)"];
+
+
+
+
+
+
+}
+
