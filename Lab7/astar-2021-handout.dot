@@ -1,0 +1,53 @@
+digraph finite_state_machine {
+
+	//  rankdir=LR;
+
+    size="8,5"
+    node [shape = square]; A_1;
+	//    node [shape = doublecircle]; A_hC_hP;
+
+    node [shape = circle];
+
+	//First Level
+    //1st expanded node
+    A_1 -> B_2 [ label = "W(A,B),g=1,f=4" ];
+
+	//Second Level
+    //2nd expanded node
+    B_2 -> A_1 [ label = "W(B,A),g=2,f=4" ]; //Duplicate
+    B_2 -> C [ label = "W(B,C),g=2,f=5" ];
+    B_2 -> B_2M_3 [ label = "WD,g=2,f=5" ];
+
+	//Third Level
+	//3rd expanded node
+	B_2M_3 -> A_2M_4 [label = "W(B,A),g=3,f=5"]
+	B_2M_3 -> C_2M_5 [label = "W(B,C),g=3,f=6"]
+	B_2M_3 -> B_2M_3 [label = "WD,g=3,f=6"]
+
+	//Fourth Level
+	//4th expanded node
+	A_2M_4 -> B_2M_3 [label = "W(A,B),g=4,f=7"]	
+
+	//5th expanded node
+	C_2M_5 -> C_hP_1M_6 [label="buyP,g=4,f=6"]
+	C_2M_5 -> C_hC_1M [label="buyC,g=4,f=6"]
+	C_2M_5 -> B_2M_3  [label="W(C,B),g=4,f=7"]
+
+	//Fifth level
+	//6th expanded node	
+	C_hP_1M_6 -> C_hP_hC_7 [label="buyC,g=5,f=6"]
+	C_hP_1M_6 -> B_hP_1M [label="W(C,B),g=5,f=7"]
+
+	//Sixth Level
+	//7th expanded node
+	C_hP_hC_7 -> B_hP_hC_8 [label="W(C,B),g=6,f=7"]
+	
+	//Seventh level
+	//8th expanded node
+	B_hP_hC_8 -> A_hP_hC_9 [label="W(B,A),g=7,f=7"]
+	B_hP_hC_8 -> C_hP_hC_7 [label="W(B,C),g=7,f=8"]
+
+	
+
+
+}
