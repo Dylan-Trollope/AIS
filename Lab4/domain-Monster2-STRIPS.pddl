@@ -1,5 +1,5 @@
 (define (domain Monster-b)
-	:requirements :strips)
+	(:requirements :strips)
 	(:predicates
 		(adj ?square-1 ?square-2)
 		(pit ?square)

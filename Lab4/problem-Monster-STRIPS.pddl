@@ -1,3 +1,5 @@
+;problem file for Monster world (STRIPS version)
+
 (define (problem Monster-a-1)
 	(:domain Monster-a)
 	(:objects

@@ -1,3 +1,5 @@
+;Domain file for Towers of Hanoi 
+
 (define (domain Towers)
 	(:requirements :strips)
 	

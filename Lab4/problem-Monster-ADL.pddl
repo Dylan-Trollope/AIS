@@ -1,3 +1,5 @@
+;problem file for Monster world (ADL version)
+
 (define (problem Monster-c-1)
 	(:domain Monster-c)
 	(:objects

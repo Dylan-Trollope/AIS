@@ -1,3 +1,5 @@
+;domain file for Monster world (ADL version)
+
 (define (domain Monster-c)
 	(:requirements :strips :adl :typing)
 

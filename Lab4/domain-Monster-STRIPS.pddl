@@ -1,3 +1,5 @@
+;domain file for Monster world (STRIPS version)
+
 (define (domain Monster-a)
 	(:requirements :strips)
 

@@ -18,25 +18,42 @@ digraph finite_state_machine {
 //Third Level
     C -> B [ label = "W(C,B)" ];//B is level 1
     B_2M -> C_2M [ label = "W(B,C)" ];//C_2M is level 3
+	C_2M -> B_2M [ label = "W(C,B)" ];
     B_2M -> B_2M [ label = "Withdraw"]; //B_2M was level 2
     B_2M -> A_2M [ label = "W(B,A)"]; //A_2M is level 3
 	A_2M -> B_2M [ label = "W(A,B)"];
-
 	C_2M -> C_hP_1M [label = "buy2P" ];
+		
 	C_2M -> C_hC_1M [label = "buy2C" ];
 
+
 	C_hC_1M -> C_hC_hP [label = "buy1P"];
+	B_hC_1M -> C_hC_1M [label = "W(B,C)"];
 	C_hC_1M -> B_hC_1M [label = "W(C,B)" ];
-	
+
 	C_hP_1M -> C_hC_hP [label = "buy1C" ];
 	C_hP_1M -> B_hP_1M [label = "W(B,C)" ];
+	B_hP_1M -> C_hP_1M [label = "W(C,B)" ];
 
 	B_hP_1M -> B_hP_2M [label = "Withdraw"];
 	B_hC_1M -> B_hC_2M [label = "Withdraw"];
-	
-	C_hC_hP -> B_hC_hP [label = "W(C,B)"]
-	B_hC_hP -> A_hC_hP [label = "W(B,A)"]
 
-	B_hC_2M -> B_hC_2M [label = "Withdraw"]
+	C_hC_hP -> B_hC_hP [label = "W(C,B)"];
+	B_hC_hP -> A_hC_hP [label = "W(B,A)"];
+
+	B_hC_2M -> B_hC_2M [label = "Withdraw"];
+	B_hP_2M -> B_hP_2M [label = "Withdraw"];
+
+	B_hC_2M -> C_hC_2M [label = "W(B,C)"];
+	C_hC_2M -> B_hC_2M [label = "W(C,B)"];
 	
+	B_hP_2M -> C_hP_2M [label = "W(B,C)"];
+	C_hP_2M -> B_hP_2M [label = "W(C,B)"];
+
+	C_hP_2M -> C_hC_hP [label = "buy2C"];
+	C_hC_2M -> C_hC_hP [label = "buy2P"];	
+	
+
+
+
 }

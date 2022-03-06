@@ -1,3 +1,5 @@
+;Problem file for Towers of Hanoi
+
 (define (problem Towers1)
 	(:domain Towers)
 	(:objects pegA pegB pegC disk1 disk2 disk3)
