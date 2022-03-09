@@ -28,7 +28,7 @@
 			(and (lit ?xs ?y) (lit ?x ?ys))))
 
 			(forall (?xs - xpos ?ys - ypos)
-			(when (and (right ?xs ?x) (below ?ys ?y))
+			(when (and (left ?xs ?x) (above ?ys ?y))
 			(and (lit ?xs ?y) (lit ?x ?ys)))))
 
 
