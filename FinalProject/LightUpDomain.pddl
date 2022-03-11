@@ -20,17 +20,31 @@
 	(:action place-bulb
 		:parameters (?x - xpos ?y - ypos)
 
-		:precondition (not (lit ?x ?y))
+		:precondition (and (not (lit ?x ?y)) (not (black ?x ?y)))
 				   
 		:effect (and 
-			(forall (?xs - xpos ?ys - ypos)
-			(when (and (right ?xs ?x) (below ?ys ?y))
-			(and (lit ?xs ?y) (lit ?x ?ys))))
+				(lit ?x ?y)
 
-			(forall (?xs - xpos ?ys - ypos)
-			(when (and (left ?xs ?x) (above ?ys ?y))
-			(and (lit ?xs ?y) (lit ?x ?ys)))))
+				(forall (?r - xpos)
+					(when (and (right ?r ?x) (not (exists (?l - xpos) (and (black ?l ?y) (left ?l ?x)))))
+						(lit ?r ?y)
+					)
+				)
 
+
+				(forall (?b - ypos)
+					(when (and (below ?b ?y) (not (exists (?a - ypos) (and (black ?x ?a) (above ?a ?y)))))
+						(lit ?x ?b)
+					)
+				)
+
+			)
 
 	)
+
+			;(forall (?r - xpos) (when (or (right ?r ?x) (left ?r ?x)) (lit ?r ?y)))
+			;(forall (?d - ypos) (when (or (above ?d ?y) (below ?d ?y)) (lit ?x ?d)))))
+
+			
+
 )
