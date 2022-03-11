@@ -26,15 +26,34 @@
 				(lit ?x ?y)
 
 				(forall (?r - xpos)
-					(when (and (right ?r ?x) (not (exists (?l - xpos) (and (black ?l ?y) (left ?l ?x)))))
-						(lit ?r ?y)
+					(when (and 
+					  (right ?r ?x) 
+					    (not (exists (?l - xpos) (and (black ?l ?y) (right ?l ?x) (left ?l ?r)))))
+								(lit ?r ?y)
 					)
 				)
 
+				(forall (?l - xpos)
+					(when (and 
+						(left ?l ?x)
+							(not (exists (?r - xpos) (and (black ?r ?y) (left ?r ?x) (right ?r ?l)))))
+								(lit ?l ?y)
+					)
+				)
 
 				(forall (?b - ypos)
-					(when (and (below ?b ?y) (not (exists (?a - ypos) (and (black ?x ?a) (above ?a ?y)))))
-						(lit ?x ?b)
+					(when (and 
+						(below ?b ?y) 
+							(not (exists (?a - ypos) (and (black ?x ?a) (below ?a ?y) (above ?a ?b)))))
+								(lit ?x ?b)
+					)
+				)
+
+				(forall (?a - ypos)
+					(when (and
+						(above ?a ?y)
+							(not (exists (?b - ypos) (and (black ?x ?b) (above ?b ?y) (below ?b ?a)))))
+								(lit ?x ?a)
 					)
 				)
 
