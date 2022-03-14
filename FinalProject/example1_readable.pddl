@@ -66,7 +66,7 @@
 	(right X4 X3) (left X3 X4) (up Y3 Y4) (below Y4 Y3)
 
 	; (black ?x ?y) used to describe which blocks do not let light propagate through
-	; Initially, no lightbulbs are placed,(surrounded ?x ?y N0) must hold for every ?x ?y
+	; Initially, no lightbulbs are placed, (surrounded ?x ?y N0) must hold for every ?x ?y
 
 	(black X1 Y0)
 

@@ -26,7 +26,6 @@ digraph finite_state_machine {
 		
 	C_2M -> C_hC_1M [label = "buy2C" ];
 
-
 	C_hC_1M -> C_hC_hP [label = "buy1P"];
 	B_hC_1M -> C_hC_1M [label = "W(B,C)"];
 	C_hC_1M -> B_hC_1M [label = "W(C,B)" ];
@@ -52,8 +51,4 @@ digraph finite_state_machine {
 
 	C_hP_2M -> C_hC_hP [label = "buy2C"];
 	C_hC_2M -> C_hC_hP [label = "buy2P"];	
-	
-
-
-
 }
