@@ -29,6 +29,7 @@ int GoalCountHeuristic::compute_heuristic(const State &state)
 
         .size() gets size of goal state (number of predicates it contains)
     */
+
     size_t goal_count = g_goal.size();    
 
     // for each i in the goal state

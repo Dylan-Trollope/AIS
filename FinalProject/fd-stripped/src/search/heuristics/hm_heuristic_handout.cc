@@ -38,12 +38,14 @@ void HMHeuristic::initialize() {
 
 
 int HMHeuristic::compute_heuristic(const State &state) {
+    // If we are in a goal state. Return 0 
     if (test_goal(state)) {
         return 0;
     } else {
         Tuple s_tup;
         state_to_tuple(state, s_tup);
 
+        // Build a new hm table
         init_hm_table(s_tup);
         update_hm_table();
         //dump_table();
@@ -62,44 +64,51 @@ void HMHeuristic::init_hm_table(Tuple &t) {
     for (it = hm_table.begin(); it != hm_table.end(); ++it) {
         pair<Tuple, int> hm_ent = *it;
         Tuple &tup = hm_ent.first;
-	//Initialize h_val per column to either 0 or infinite
+	    //Initialize h_val per column to either 0 or infinite
         int h_val = check_tuple_in_tuple(tup, t);
         hm_table[tup] = h_val;
     }
 }
 
 
-void HMHeuristic::update_hm_table() {//INCOMPLETE!!!!
-
+void HMHeuristic::update_hm_table() {
+    // set an update flag, this tracks whether or not we have update the table after each step.
     bool update = true;
 
+    // we terminate when the table has not been updated for one iteration (the same row is produced twice)
     while(update){
         update = false;
 
-        int actions_possible = 0;
+        // for each operator (only 1 in this example, but just incase!)
         for (size_t i = 0; i < g_operators.size(); i++){
             Operator &c_op = g_operators[i];
+            // pull out the preconditions
             Tuple pre;
             get_operator_pre(c_op, pre);
 
+            // evaluate the precondition costs
             int old_c = eval(pre);
         
+            // if they aren't currently achievable, stop here.
             if (old_c != numeric_limits<int>::max()){
-                actions_possible++;
+                // otherwise pull out the effects and for each partial tuple amongst them, update the table
                 Tuple eff;
                 get_operator_eff(c_op, eff);
 
                 vector<Tuple> parts;
                 generate_all_partial_tuples(eff, parts);
 
+                // cost of tuple is the precondition cost plus action cost
                 int cost = c_op.get_cost() + old_c;
     
                 for (size_t j = 0; j < parts.size(); j++){
+                    // logic to correctly maintain update flag
                     if (update) {
                         update_hm_entry(parts[j], cost);
                     } else {
                         update = update_hm_entry(parts[j], cost);
                     }
+                    // if required, also attempt to update extendable tuples
                     if (parts[j].size() < m){
                         bool update2 = extend_tuple(parts[j], c_op);
                         update = update2 or update;
@@ -113,11 +122,15 @@ void HMHeuristic::update_hm_table() {//INCOMPLETE!!!!
 bool HMHeuristic::extend_tuple(Tuple &new_tup, Operator &op){
     op.get_effects();
     
-    
+    // check each column in the hm table
     for (auto const& hm_entry : hm_table) {
         const Tuple &col = hm_entry.first;
+        // check that it contains new_tup
         bool contained = check_tuple_in_tuple(new_tup, col) == 0;
+        // check that it is not exactly new_tup
         bool different = new_tup.size() < col.size();
+
+        // check for contradictions between effects of op and column predicate
         bool contradicts = false;
 
         for (int t = 0; t < col.size(); t++){
@@ -130,6 +143,7 @@ bool HMHeuristic::extend_tuple(Tuple &new_tup, Operator &op){
         Tuple pres;
         get_operator_pre(op, pres);
     
+        // check that preconditions of action do not contradict the column predicate
         bool valid = true;
 
         if (contained and different and not contradicts){
@@ -146,12 +160,17 @@ bool HMHeuristic::extend_tuple(Tuple &new_tup, Operator &op){
         }
         
         if (valid) {
+            // if all conditions are satisfied, add the precondition costs to the action
             int pre_cost = eval(pres) + op.get_cost();
             if (pre_cost != numeric_limits<int>::max()) {
+
+                // I was getting a bug to do with the const conditions of the function.
+                // creating a fresh tuple and using that fixes it. I have no idea why.
                 Tuple add_t;
                 for (pair<int,int> temp_tup : col){
                     add_t.push_back(temp_tup);
                 }
+                // update the hm table
                 bool up = update_hm_entry(add_t, pre_cost);
                 return up;
             }
@@ -161,12 +180,14 @@ bool HMHeuristic::extend_tuple(Tuple &new_tup, Operator &op){
 }
 
 
-int HMHeuristic::eval(Tuple &t) const {//INCOMPLETE!!!
+int HMHeuristic::eval(Tuple &t) const {
+    
     vector<Tuple> partial;
     generate_all_partial_tuples(t, partial);
     
     int max = 0;
 
+    // Find and return the maximum cost amongst partial tuples of t
     for (int i = 0; i < partial.size(); i++){
         int curr_val = hm_table.at(partial[i]);
         if (curr_val > max){
@@ -179,11 +200,14 @@ int HMHeuristic::eval(Tuple &t) const {//INCOMPLETE!!!
 
 
 bool HMHeuristic::update_hm_entry(Tuple &t, int val){
+    // make sure the column t exists in the table
     assert(hm_table.count(t) == 1);
+    // then, if the new val is better than the previous one, update the table and return true
     if (hm_table[t] > val) {
         hm_table[t] = val;
         return true;
     }
+    // otherwise false
     return false;
 }
 
@@ -276,7 +300,6 @@ bool HMHeuristic::contradict_effect_of(
 void HMHeuristic::generate_all_tuples() {
     Tuple t;
     generate_all_tuples_aux(0, m, t);
-    //dump_table();
 }
 
 
@@ -284,7 +307,6 @@ void HMHeuristic::generate_all_tuples_aux(int var, int sz, Tuple &base) {
     int num_variables = g_variable_domain.size();
     for (int i = var; i < num_variables; ++i) {
         for (int j = 0; j < g_variable_domain[i]; ++j) {
-	        //cout<<"generating tuple:,"<<i<<","<<j<<endl;
             Tuple tup(base);
             tup.push_back(make_pair(i, j));
             hm_table[tup] = 0;
@@ -335,10 +357,8 @@ void HMHeuristic::dump_table() const {
 
 
 void HMHeuristic::dump_tuple(Tuple &tup) const {
-    //cout << tup[0].first << "," << tup[0].second;
     cout << g_fact_names[tup[0].first][tup[0].second];
     for (size_t i = 1; i < tup.size(); ++i)
-        //cout << "," << tup[i].first << "=" << tup[i].second;
         cout << "," <<  g_fact_names[tup[i].first][tup[i].second];
 
 }
