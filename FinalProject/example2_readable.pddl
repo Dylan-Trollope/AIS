@@ -88,15 +88,19 @@
     (:goal ; every coordinate (xpos, ypos) must be lit or black
             ; some cooridnates (xpos, ypos) are surrounded by some number (0-4) of lightbulbs
 
-	( and 
-        (
-            forall (?x - xpos ?y - ypos)(or (black ?x ?y) (lit ?x ?y))
+	    (and 
+            (lit x0 y0) (lit x1 y0) (lit x2 y0) (lit x3 y0) (lit x4 y0)
+            (lit x0 y1) (lit x1 y1) (lit x2 y1) (lit x3 y1)
+            (lit x0 y2) (lit x1 y2) (lit x2 y2) (lit x3 y2)
+                                    (lit x2 y3)             (lit x4 y3)
+            (lit x0 y4) (lit x1 y4) (lit x2 y4) (lit x3 y4) (lit x4 y4)
+
+	    	(surrounded X4 Y1 N0)
+		    (surrounded X4 Y2 N1)
+    		(surrounded X3 Y3 N3)
+    		(surrounded X1 Y3 N1)
         )
-		(surrounded X4 Y1 N0)
-		(surrounded X4 Y2 N1)
-		(surrounded X3 Y3 N3)
-		(surrounded X1 Y3 N1)
-    ))
+    )
 )
 
 

@@ -1,0 +1,7 @@
+(light-up x0 y2)
+(light-up x1 y1)
+(light-up x2 y3)
+(light-up x3 y0)
+(light-up x3 y4)
+(light-up x4 y3)
+; cost = 6 (unit-cost)
